@@ -69,20 +69,48 @@ public class MainActivity extends Activity {
         public void onClick(View view) {
             switch(view.getId()) {
                 case R.id.btnCancel: {
-                    testTimerTask.cancel();
-                    Log.d("TEST.DKEY", "timertask cancel()");
+                    //testTimerTask.cancel();
+                    //Log.d("TEST.DKEY", "timertask cancel()");
                     //mTimer.cancel();
                     //Log.d("TEST.DKEY", "timer cancel()");
-                    mTimer.purge();
-                    Log.d("TEST.DKEY", "timer purge() canceled task");
+                    //mTimer.purge();
+                    //Log.d("TEST.DKEY", "timer purge() canceled task");
+                    stopTimer();
+                    Log.d("TEST.DKEY", "stopTimer called");
                     break;
                 }
                 case R.id.btnResume: {
-                    mTimer.schedule(testTimerTask, 10000, 10000);
-                    Log.d("TEST.DKEY", "resume timertask! [Timer.schedule]");
+                    //mTimer.schedule(testTimerTask, 10000, 10000);
+                    //Log.d("TEST.DKEY", "resume timertask! [Timer.schedule]");
+                    restartTimer();
+                    Log.d("TEST.DKEY", "startTimer called");
                     break;
                 }
             }
         }
     };
+
+    // finally, i choose below to stop/restart timer
+
+    public void stopTimer(){
+        if (testTimerTask !=null){
+            testTimerTask.cancel();
+            testTimerTask=null;
+        }
+        if (mTimer != null){
+            mTimer.cancel();  mTimer.purge();
+            mTimer=null;
+        }
+    }
+    public void restartTimer(){
+        mTimer = new Timer();
+        testTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                //tvHello.setText("TIMER ACT!");
+                Log.d("TEST.DKEY", "TIMER ACTIVE !!!");
+            }
+        };
+        mTimer.schedule(testTimerTask, 10000, 10000);
+    }
 }
